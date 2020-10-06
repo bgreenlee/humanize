@@ -8,6 +8,16 @@ As a data engineer, I encounter a lot of big numbers in the course of my work. I
 squinting and counting digits to tell if something was in the billions or trillions, so I wrote
 this to replace the numbers inline.
 
+## Install
+
+```
+go get github.com/bgreenlee/humanize
+```
+
+If you don't have Go installed, [do that](https://golang.org/doc/install) first.
+
+The `humanize` binary will be installed in `$GOPATH/bin`, which is likely `~/go/bin`, so make sure that's in your `PATH`.
+
 ## Usage
 
 ```
