@@ -33,7 +33,7 @@ func numToHuman(isBinary bool, minValue float64) func(string) string {
 				return numstr
 			}
 
-			exp := math.Round(math.Log(num) / math.Log(base)) // same as Log<base>(num)
+			exp := math.Log(num) / math.Log(base) // same as Log<base>(num)
 			suffidx := int((exp / expdivisor) - 1)
 			if suffidx >= len(suffixes) {
 				suffidx = len(suffixes) - 1
