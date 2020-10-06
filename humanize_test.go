@@ -1,4 +1,4 @@
-package main
+package humanize
 
 import (
 	"strings"
@@ -96,7 +96,7 @@ func TestHumanize(t *testing.T) {
 multiple lines, some with numbers like 987654321 and
 some without.`,
 			`This has
-multiple lines, some with numbers like 1G and
+multiple lines, some with numbers like 988M and
 some without.`,
 		},
 	}
@@ -110,7 +110,7 @@ some without.`,
 				res.WriteString(line)
 			}
 			if res.String() != test.result {
-				t.Errorf("got %v, want %v", []byte(res.String()), []byte(test.result))
+				t.Errorf("got %s, want %s", res.String(), test.result)
 			}
 		})
 	}
