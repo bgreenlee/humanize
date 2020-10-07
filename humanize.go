@@ -1,4 +1,4 @@
-package humanize
+package main
 
 import (
 	"bufio"
@@ -11,6 +11,8 @@ import (
 	"regexp"
 	"strconv"
 )
+
+var version = "v1.1.0"
 
 // numToHuman returns a replacement function used by rexexp.ReplaceAllStringFunc
 // to replace numbers in a string with more human-readable values
@@ -88,7 +90,14 @@ func humanize(reader io.Reader, isBinary bool, minValue float64) <-chan string {
 func main() {
 	binaryFlagPtr := flag.Bool("bin", false, "use base-2 divisors instead of base-10")
 	minValuePtr := flag.Float64("min", 1000, "minimum absolute value to humanize")
+	versionFlagPtr := flag.Bool("version", false, "print version and exit")
+
 	flag.Parse()
+
+	if *versionFlagPtr {
+		fmt.Printf("humanize %s\n", version)
+		os.Exit(0)
+	}
 
 	output := humanize(os.Stdin, *binaryFlagPtr, *minValuePtr)
 	for line := range output {
