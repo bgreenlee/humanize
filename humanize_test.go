@@ -104,13 +104,10 @@ some without.`,
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
 			reader := strings.NewReader(test.input)
-			var res strings.Builder
-			output := humanize(reader, false, 1000)
-			for line := range output {
-				res.WriteString(line)
-			}
-			if res.String() != test.result {
-				t.Errorf("got %s, want %s", res.String(), test.result)
+			var result strings.Builder
+			humanize(reader, &result, false, 1000)
+			if result.String() != test.result {
+				t.Errorf("got %s, want %s", result.String(), test.result)
 			}
 		})
 	}
