@@ -12,7 +12,7 @@ import (
 	"strconv"
 )
 
-var version = "v1.1.0"
+var version = "v1.1.1"
 
 // numToHuman returns a replacement function used by rexexp.ReplaceAllStringFunc
 // to replace numbers in a string with more human-readable values
@@ -64,27 +64,20 @@ func numToHuman(isBinary bool, minValue float64) func(string) string {
 
 // humanize takes a Reader and configuration flags and replaces any numbers it reads
 // with more human-readable versions
-func humanize(reader io.Reader, isBinary bool, minValue float64) <-chan string {
-	output := make(chan string)
-
-	go func() {
-		defer close(output)
-
-		numre := regexp.MustCompile(`\d+`)
-		bufreader := bufio.NewReader(reader)
-		for {
-			line, err := bufreader.ReadString('\n')
-			output <- fmt.Sprint(numre.ReplaceAllStringFunc(line, numToHuman(isBinary, minValue)))
-			if err == io.EOF {
-				break
-			}
-			if err != nil {
-				log.Fatal(err)
-			}
+func humanize(reader io.Reader, writer io.Writer, isBinary bool, minValue float64) {
+	numre := regexp.MustCompile(`\d+`)
+	bufreader := bufio.NewReader(reader)
+	//bufwriter := bufio.NewWriter(*writer)
+	for {
+		line, err := bufreader.ReadString('\n')
+		fmt.Fprint(writer, numre.ReplaceAllStringFunc(line, numToHuman(isBinary, minValue)))
+		if err == io.EOF {
+			break
 		}
-	}()
-
-	return output
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 }
 
 func main() {
@@ -99,8 +92,5 @@ func main() {
 		os.Exit(0)
 	}
 
-	output := humanize(os.Stdin, *binaryFlagPtr, *minValuePtr)
-	for line := range output {
-		fmt.Print(line)
-	}
+	humanize(os.Stdin, os.Stdout, *binaryFlagPtr, *minValuePtr)
 }
