@@ -29,9 +29,10 @@ func TestNumToHumanDecimal(t *testing.T) {
 		{"12345678901234567890123456789012345678901234567890", "12345678901234567890123456789012345678901234567890"}, // overflow float64
 	}
 
+	opt := options{isBinary: false, minValue: 1000}
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
-			res := numToHuman(false, 1000)(test.input)
+			res := numToHuman(opt)(test.input)
 			if res != test.result {
 				t.Errorf("got %s, want %s", res, test.result)
 			}
@@ -64,9 +65,30 @@ func TestNumToHumanBinary(t *testing.T) {
 		{"12345678901234567890123456789012345678901234567890", "12345678901234567890123456789012345678901234567890"}, // overflow float64
 	}
 
+	opt := options{isBinary: true, minValue: 1000}
 	for _, test := range tests {
 		t.Run(test.input, func(t *testing.T) {
-			res := numToHuman(true, 1000)(test.input)
+			res := numToHuman(opt)(test.input)
+			if res != test.result {
+				t.Errorf("got %s, want %s", res, test.result)
+			}
+		})
+	}
+}
+
+func TestPreserveFormatting(t *testing.T) {
+	var tests = []struct {
+		input  string
+		result string
+	}{
+		{"999", "999"},
+		{"1000", "  1K"},
+	}
+
+	opt := options{isBinary: false, minValue: 1000, preserveFormatting: true}
+	for _, test := range tests {
+		t.Run(test.input, func(t *testing.T) {
+			res := numToHuman(opt)(test.input)
 			if res != test.result {
 				t.Errorf("got %s, want %s", res, test.result)
 			}
@@ -105,7 +127,7 @@ some without.`,
 		t.Run(test.input, func(t *testing.T) {
 			reader := strings.NewReader(test.input)
 			var result strings.Builder
-			humanize(reader, &result, false, 1000)
+			humanize(reader, &result, options{isBinary: false, minValue: 1000})
 			if result.String() != test.result {
 				t.Errorf("got %s, want %s", result.String(), test.result)
 			}
