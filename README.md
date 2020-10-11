@@ -34,3 +34,7 @@ Woah, check out this big number: 123T
 $ echo "Woah, check out this big number: 123456789012345" | humanize -bin
 Woah, check out this big number: 112Ti
 ```
+
+## Tests
+
+![Go](https://github.com/bgreenlee/humanize/workflows/Go/badge.svg)
