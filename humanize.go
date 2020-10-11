@@ -12,7 +12,7 @@ import (
 	"strconv"
 )
 
-var version = "v1.2.0"
+var version = "v1.2.1"
 
 type options struct {
 	isBinary           bool
