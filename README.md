@@ -22,16 +22,20 @@ The `humanize` binary will be installed in `$GOPATH/bin`, which is likely `~/go/
 
 ```
 Usage of humanize:
-  -bin
-    	use base-2 divisors instead of base-10
+  -binary
+        use base-2 divisors instead of base-10
   -min float
-    	minimum absolute value to humanize (default 1000)
+        minimum absolute value to humanize (default 1000)
+  -preserve
+        preserve formatting when replacing
+  -version
+        print version and exit
 ```
 
 ```
 $ echo "Woah, check out this big number: 123456789012345" | humanize
 Woah, check out this big number: 123T
-$ echo "Woah, check out this big number: 123456789012345" | humanize -bin
+$ echo "Woah, check out this big number: 123456789012345" | humanize -binary
 Woah, check out this big number: 112Ti
 ```
 
