@@ -11,7 +11,7 @@ this to replace the numbers inline.
 ## Install
 
 ```
-go get github.com/bgreenlee/humanize
+go install github.com/bgreenlee/humanize@latest
 ```
 
 If you don't have Go installed, [do that](https://golang.org/doc/install) first.
